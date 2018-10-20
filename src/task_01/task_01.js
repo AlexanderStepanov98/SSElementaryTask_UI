@@ -1,35 +1,65 @@
-function chessDeskCreate(chessDeskLength, chessDeskWidth, chessDeskSymbol) {
+function chessDeskCreate() {
     
-    // Checking if the input data is correct.
-    if (!(chessDeskLength) || !(chessDeskWidth) || !(chessDeskSymbol)) { 
-        return "Entered arguments are not correct, please check the function description."
+    // Initializing variables
+    var length = Number($("#length").val());
+    var width = Number($("#width").val());
+    var symbol = String($("#symbol").val());
+    var firstRow = symbol + " ";
+    var secondRow = " " + symbol;
+    
+    // Constructor for the chess desk
+    function ChessDesk (length, width, symbol) {
+        this.length = length,
+        this.width = width,
+        this.symbol = symbol    
     }
-    let lengthIsCorrect = ((chessDeskLength > 1) && (chessDeskLength < 100));
-    let widthIsCorrect = ((chessDeskWidth > 1) && (chessDeskWidth < 100));
-    let symbolIsCorrect = ((chessDeskSymbol.length > 0) && (chessDeskSymbol != " ") && (chessDeskSymbol.length != 0)); 
     
-    // Creating 2 strings, which are outputed one after another in the cycle
-    if ((lengthIsCorrect) && (widthIsCorrect) && (symbolIsCorrect)) {
-        for (let i = 0; i < chessDeskLength; i++) {
-            let firstRow = chessDeskSymbol + " ";
-            let secondRow = " " + chessDeskSymbol;
-            let rowsFilled = false;
-            if (rowsFilled == false) {
-                for (let j = 0; j < chessDeskWidth - 1; j++) {
-                    if (firstRow != chessDeskWidth - 1) {
-                        firstRow += chessDeskSymbol + " ";
-                        secondRow += " " + chessDeskSymbol;
-                    };
-                }
-            rowsFilled == true;    
-            }    
-            if (((i % 2) == 0) || (i == 0)) {   
-                console.log("|" + firstRow + "|"); 
-            } else {
-                console.log("|" + secondRow + "|");       
+    // Input data validation
+    function validation () {  
+        if (Number.isInteger(length) && Number.isInteger(width) && (symbol.length > 0)) {
+            return true;
+        } else {
+            $("#result").text("Error. Input data is incorrect.");
+            $("#result").css("color", "red");
+            return false;
+        }
+    }
+    
+    // Creating chess desk
+    function cdCreate () {
+        
+        var paramsIsValid = validation();
+        
+        function rowsCreate () {
+            for (let i = 0; i < chessDesk.width - 1; i++) {
+                firstRow += chessDesk.symbol + " ";
+                secondRow += " " + chessDesk.symbol; 
             }
         }
-    } else { return "Ooops, something went wrong! Please, check in the description if the agruments are correct."; } 
+        
+        if (paramsIsValid) {
+            var chessDesk = new ChessDesk (length, width, symbol);
+            chessDesk.resultBoard = "";
+            rowsCreate();
+            for (let i = 0; i < chessDesk.length; i++) {    
+                if (((i % 2) == 0) || (i == 0)) {   
+                    chessDesk.resultBoard += firstRow + "</br>";
+                } else {
+                    chessDesk.resultBoard += secondRow + "</br>";
+                }
+            }
+            $("#result").css("color", "#555555");
+            return chessDesk.resultBoard;
+        }
+    }
     
-    return "Chess desk successfully created!";
+    // Showing the result on the web-page
+    function cdShow () {
+        $("#result").html(cdCreate());
+    }
+    
+    return cdShow();
 }
+
+$("#chessDeskCreate").click(chessDeskCreate);
+
