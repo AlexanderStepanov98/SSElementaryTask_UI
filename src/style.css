@@ -2,10 +2,14 @@
     padding-left: 20px;
 }
 
-h2, h1 {
+h2, h1, p {
     cursor: default;
     font-family: Calibri;
     color: #555555;
+}
+
+p {
+    margin: 5px 0px 5px 0px;
 }
 
 input {
@@ -13,12 +17,14 @@ input {
     cursor: default;
     font-family: Calibri;
     color: #555555;
+    margin-left: 20px;
 }
 
 button {
     border: none;
     padding: 12px 25px;
     margin-right: 5px;
+    margin-top: 5px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -30,36 +36,48 @@ button {
 
 .taskCallBtn {
     background-color: #555555; /* Black */
+    border-bottom: 4px solid #444444;
 }
 
 .taskExecuteBtn {
     background-color: #008CBA; /* Blue */
 }
 
+.taskExecuteBtn:hover {
+    background-color: #e7e7e7;
+    color: #008CBA;
+    -webkit-transition: 0.2s;
+}
+
 .taskAddConditionBtn {
     background-color: #4CAF50; /* Green */
+}
+
+.taskAddConditionBtn:hover {
+    background-color: #e7e7e7;
+    color: #4CAF50;
+    -webkit-transition: 0.2s;
 }
 
 .taskCallBtn:hover {
     background-color: #e7e7e7;
     color: #555555;
-    -webkit-transition: 0.3s;
-}
-
-.tasCallkBtn:focus {
-    background-color: #e7e7e7; /* Grey */
-    color: #555555;
+    -webkit-transition: 0.2s;
+    border-bottom: 3px solid #e7e7e7;
 }
 
 #task_description {
-    /* width: 800px;
-    height: 200px; */
     max-width: 100%;
     margin: 0;
     padding: 20px 20px 20px 20px;
-    /* border: 2px solid #555555; */
     font-family: Calibri;
-    /* display: inline-block; */
+}
+
+#result {
+    font-size: 18px;
+    font-weight: 600;
+    font-family: Calibri;
+    color: #4CAF50;
 }
 
 
