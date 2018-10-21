@@ -1,94 +1,109 @@
-function trianglesSort (arrayOfTriangles) {
+var trianglesArr = [];
+
+function addTriangle () {
     
-    // Initializing variables.
-    let counter = 0;
-    let errorMessage = "";
-    let sortedTriangles = [];
-    let sortedTrianglesNames = [];
-    let sorted
-    let a = 0;
-    let b = 0;
-    let c = 0;
-    let p = 0;
-    let square = 0;
+    // Initializing variables
+    var trName = $("#triangleName").val();
+    var trSide1 = Number($("#triangleSide1").val());
+    var trSide2 = Number($("#triangleSide2").val());
+    var trSide3 = Number($("#triangleSide3").val());      
     
-    // Function used for sorting the output array.
+    // Clear inputs after adding triangle
+    function clearInput () {
+        $("input").each(function () {
+            $(this).val("");
+        });
+    }
+    
+    // Triangles constructor
+    function Triangle (name, side1, side2, side3) {
+        this.name = name,
+        this.side1 = side1,
+        this.side2 = side2,
+        this.side3 = side3    
+    }
+    
+    // Input data validation
+    function validation () {
+        if ((trSide1 > 0) && (trSide2 > 0) && (trSide3 > 0)) {
+            return true;
+        } else {
+            $("#result").text("Error. Input data is incorrect.");
+            $("#result").css("color", "red");
+            return false;
+        }
+    }
+    
+    // Triangle existence check
+    function triangleExist () {
+        if (((trSide1 + trSide2) > trSide3) && ((trSide1 + trSide3) > trSide2) && ((trSide2 + trSide3) > trSide1)) {
+            return true;
+        } else {
+            $("#result").text("Error. Such triangle can not exist.");
+            $("#result").css("color", "red");
+            return false;
+        }
+    }
+    
+    // Creating triangle
+    function triangleCreate () {
+        var isValid = (validation() && triangleExist());
+        if (isValid) {
+            var triangle = new Triangle (trName, trSide1, trSide2, trSide3);
+            trianglesArr.push(triangle);
+            triangleShow();
+            clearInput();
+            return triangle;
+        } else {
+            return false;
+        }
+    }
+    
+    return triangleCreate(); 
+}
+
+function clearAll () {
+    $("input").each(function(index) {
+        $(this).val("");
+    });
+    trianglesArr = [];
+    $("#result").text("");
+    return true;
+}
+
+function trianglesSort () {
+    
+    var p; // perimeter
+    
+    // Sorting conditions
     function triangleSquareCompare (tr1, tr2) {
         return (tr2.square - tr1.square);
     }
     
-    // Checking if:
-    //     The function is not empty
-    //     The function argument is array
-    //     The array must have at least 2 objects
-    //     Objects must have 4 fields
-    if ((Array.isArray(arrayOfTriangles)) && (arrayOfTriangles.length >= 2)) {
-        for (let i = 0; i <= arrayOfTriangles.length - 1; i++) {
-            if (typeof(arrayOfTriangles[i]) == typeof({})) {
-                Object.keys(arrayOfTriangles[i]).forEach(function (key) {
-                    counter += 1;
-                })
-                if (counter != 4) {
-                    return errorMessage = "Error. Objects must contain 4 fields."
-                }
-                counter = 0;
-            } else {
-                return (errorMessage = "Error. Array must contain only Objects.");
-            }
+    if (trianglesArr.length > 0) {
+        for (var i = 0; i < trianglesArr.length; i++) {
+            p = ((trianglesArr[i].side1 + trianglesArr[i].side2 + trianglesArr[i].side3) / 2);
+            trianglesArr[i].square = Math.sqrt(Math.abs(p * (p - trianglesArr[i].side1) * (p - trianglesArr[i].side2) * (p - trianglesArr[i].side3)));
         }
+        trianglesArr.sort(triangleSquareCompare);
+        triangleShow();
+        return trianglesArr;
     } else {
-        return (errorMessage = "Error. Entered argument must be the type of Array. Array must have at least 2 objects.");
+        $("#result").text("Error. You must add at least 1 triangle.");
+        $("#result").css("color", "red");
+        return false;
     }
-    
-    
-    // If all the above conditions are OK, than scanning array and copying objects into <currentTriangle>.
-    // <currentTriangle> is stored in the new array, which will be sorted.
-    // Also, checking if the 2, 3, 4 fields are numeric.
-    if (!(errorMessage)) {
-        for (let i = 0; i <= arrayOfTriangles.length - 1; i++) {
-            let currentTriangle = {};
-            Object.keys(arrayOfTriangles[i]).forEach(function (key) {
-                if (counter == 0) {
-                    currentTriangle.vertices = arrayOfTriangles[i][key];
-                } else if (counter == 1) {
-                    currentTriangle.a = arrayOfTriangles[i][key];
-                    a = currentTriangle.a;
-                } else if (counter == 2) {
-                    currentTriangle.b = arrayOfTriangles[i][key];
-                    b = currentTriangle.b;
-                } else if (counter == 3) {
-                    currentTriangle.c = arrayOfTriangles[i][key];
-                    c = currentTriangle.c;
-                } else if (counter > 3) {
-                    return (errorMessage = "Error. Objects must have only 4 fields.");
-                }
-            counter += 1;    
-            })
-            p = ((a + b + c) / 2);
-            square = Math.sqrt(Math.abs(p * (p - a) * (p - b) * (p - c)));
-            if ((Number.isNaN(p)) || (Number.isNaN(square))) {
-                return (errorMessage = "Error. Incorrect field types. Please, check the instruction.")   
-            } else {
-                currentTriangle.p = p;
-                currentTriangle.square = square;
-                console.log(currentTriangle);
-                sortedTriangles.push(currentTriangle);
-                counter = 0;
-            }
-        }
-    } else {
-        return (errorMessage = "Error. Check the function description.");
-    }
-    
-    // Sorting and outputting sorted array.
-    if (errorMessage) {
-        return errorMessage;
-    } else {
-        sortedTriangles.sort(triangleSquareCompare);
-        for (let i = 0; i <= sortedTriangles.length - 1; i++) {
-            sortedTrianglesNames.push(sortedTriangles[i].vertices);
-        }
-        return sortedTrianglesNames;
-    }
-    
 }
+
+function triangleShow () {
+    var trNames = [];
+    trianglesArr.forEach(function (tr) {
+        trNames.push(tr.name);
+    })
+    $("#result").text(trNames.join(", "));
+    $("#result").css("color", "#4CAF50");
+}
+
+$("#triangleAdd").click(addTriangle);
+$("#trianglesSort").click(trianglesSort);
+$("#reset").click(clearAll);
