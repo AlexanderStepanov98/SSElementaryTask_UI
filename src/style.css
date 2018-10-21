@@ -36,7 +36,6 @@ button {
 
 .taskCallBtn {
     background-color: #555555; /* Black */
-    border-bottom: 4px solid #444444;
 }
 
 .taskExecuteBtn {
@@ -63,7 +62,6 @@ button {
     background-color: #e7e7e7;
     color: #555555;
     -webkit-transition: 0.2s;
-    border-bottom: 3px solid #e7e7e7;
 }
 
 #task_description {
