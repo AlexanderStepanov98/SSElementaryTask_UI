@@ -1,31 +1,43 @@
-function naturalNumbers (lenth, min) {
+function naturalNumbers () {
     
-    var arrayOfNaturalNumbers = [];
-    var result;
+    // Initializing variables
+    var length = Number($("#length").val());
+    var minSquare = Number($("#minSquare").val());
+    var resultArr = [];
     
-    function isValid(lenth, min) {
-        console.log(typeof(lenth), lenth);
-        console.log(typeof(min), min);
-        if ((typeof(lenth) || typeof(min)) != typeof(Number())) {
-            return false;
-        } else if ((lenth || min) <= 0) {
-            return false;       
-        } else {
+    // Input data validation
+    function validation () {
+        if (Number.isInteger(length) && (length > 0) && Number(minSquare) && minSquare > 0) {
             return true;
+        } else {
+            $("#result").text("Error. Input data is incorrect.");
+            $("#result").css("color", "#f44336");
+            return false;
         }
     }
     
-    function countNumbers (lenth, min) {
-        let minSqrt = Math.ceil(Math.sqrt(min));
-        for (let i = minSqrt; i <= minSqrt + lenth; i++) {
-            arrayOfNaturalNumbers.push(String(i));
-        }
-        return arrayOfNaturalNumbers.join();
+    // Showing result in the web-page
+    function showResult () {
+            $("#result").text(resultArr.join(", "));
+            $("#result").css("color", "#4CAF50");
     }
     
-    if (isValid(lenth, min)) {
-        return (result = countNumbers(lenth, min));
-    } else {
-        return "Mistake";
-    } 
+    // Counting numbers, which square is more than minSquare
+    function countNumbers () {
+        var isValid = validation();
+        if (isValid) {
+            var minSqrt = Math.ceil(Math.sqrt(minSquare));
+            for (var i = minSqrt; i <= minSqrt + length - 1; i++) {
+                resultArr.push(String(i));
+            }
+            showResult();
+            return resultArr.join(", ");
+        } else {
+            return false;    
+        }   
+    }
+    
+    return countNumbers();
 }
+
+$("#naturalNumbers").click(naturalNumbers);

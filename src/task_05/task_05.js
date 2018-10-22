@@ -40,6 +40,12 @@ function luckyTickets() {
         }
     }
     
+    // Showing the result in the web-page
+    function showResult () {
+        $("#result").html(winnerAlgorythm.Name + "<br>Number of easy tickets: " + winnerAlgorythm.numberOfEasyTickes + "<br> Number of hard tickets: " + winnerAlgorythm.numberOfHardTickes);
+        $("#result").css("color", "#4CAF50"); 
+    }
+    
     // Counting lucky tickets
     function countLuckyTickets () {
         
@@ -60,12 +66,6 @@ function luckyTickets() {
             }
         }
         
-        // Showing the result in the web-page
-        function showResult () {
-            $("#result").html(winnerAlgorythm.Name + "<br>Number of easy tickets: " + winnerAlgorythm.numberOfEasyTickes + "<br> Number of hard tickets: " + winnerAlgorythm.numberOfHardTickes);
-            $("#result").css("color", "#4CAF50");
-        }
-        
         if (isValid) {
             numbersCorrection();
             var tickets = new Tickets (minTicket, maxTicket);
@@ -83,9 +83,9 @@ function luckyTickets() {
                 minValueIncrement(tickets);
             }
             if (winnerAlgorythm.numberOfEasyTickes > winnerAlgorythm.numberOfHardTickes) {
-                winnerAlgorythm.Name = "Easy algorythm have won!";
+                winnerAlgorythm.Name = "Easy algorythm has won!";
             } else if (winnerAlgorythm.numberOfEasyTickes < winnerAlgorythm.numberOfHardTickes){
-                winnerAlgorythm.Name = "Hard algorythm have won!";
+                winnerAlgorythm.Name = "Hard algorythm has won!";
             } else {
                 winnerAlgorythm.Name = "It's a draw!";
             }

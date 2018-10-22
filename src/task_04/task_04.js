@@ -7,7 +7,7 @@ function isPalindrome () {
     
     // Input data validation
     function validation () {
-        if (Number.isInteger(Number(number)) && (Number(number) > 0)) {
+        if (Number.isInteger(Number(number)) && (Number(number) >= 11)) {
             return true;
         } else {
             $("#result").text("Error. Input data is incorrect.");
