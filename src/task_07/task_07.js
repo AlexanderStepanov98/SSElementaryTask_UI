@@ -20,10 +20,8 @@ function fibonachiCount () {
     // Input data validation
     function validation () {
         if ((Number.isInteger(min) && Number.isInteger(max) && (min >= 0) && (max >= 0) && (max > min) && (length == 0)) || ((min == 0) && (max == 0) && Number.isInteger(length) && length > 0)) {
-            console.log("validation OK");
             return true;
         } else {
-            console.log("validation FAILED");
             $("#result").text("Error. Input data is incorrect.");
             $("#result").css("color", "#f44336");
             return false;
