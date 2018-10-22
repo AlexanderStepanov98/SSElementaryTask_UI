@@ -14,7 +14,7 @@ function envelopeCompare () {
     
     // Input data validation
     function validation () {
-        if (Number.isInteger(firstSide1) && Number.isInteger(firstSide2) && Number.isInteger(secondSide1) && Number.isInteger(secondSide2)) {
+        if (Number.isInteger(firstSide1) && Number.isInteger(firstSide2) && Number.isInteger(secondSide1) && Number.isInteger(secondSide2) && firstSide1 > 0 && firstSide2 > 0 && secondSide1 > 0 && secondSide2 > 0) {
             return true;
         } else {
             $("#result").text("Error. Input data is incorrect.");
