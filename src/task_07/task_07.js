@@ -1,76 +1,85 @@
-function fibonachiCount (context) {
+function fibonachiCount () {
 
+    // Initializing variables
     var fibonachiArr = [];
-    var result;
+    var min = Number($("#minValue").val());
+    var max = Number($("#maxValue").val());
+    var length = Number($("#length").val());
     
-    function minMaxValidation (context) {
-        if (typeof(context) != typeof({})) {
-            return false;
-        } else if ((typeof(context.min) || typeof(context.max)) != typeof(Number())) {
-            return false;       
-        } else if (((context.min || context.max) <= 0) || (context.min > context.max)) {
-            return false;       
-        } else {
+    // Constructor for min/max fibonachi 
+    function FibonachiMinMax (min, max) {
+        this.min = min,
+        this.max = max
+    }
+    
+    // Constructor for length fibonachi
+    function FibonachiLength (length) {
+        this.length = length
+    }
+    
+    // Input data validation
+    function validation () {
+        if ((Number.isInteger(min) && Number.isInteger(max) && (min >= 0) && (max >= 0) && (max > min) && (length == 0)) || ((min == 0) && (max == 0) && Number.isInteger(length) && length > 0)) {
+            console.log("validation OK");
             return true;
+        } else {
+            console.log("validation FAILED");
+            $("#result").text("Error. Input data is incorrect.");
+            $("#result").css("color", "#f44336");
+            return false;
         }
     }
     
-    function lengthValidation (context) {
-        if (typeof(context.length) != typeof(Number())) {
-            return false;
-        } else if (context.length <= 0) {
-            return false;
+    // Showing result in the web-page
+    function showResult () {
+        if (fibonachiArr.length > 0) {
+            $("#result").text(fibonachiArr.join(", "));
+            $("#result").css("color", "#4CAF50");
         } else {
-            return true;
+            $("#result").text("No such fibonachi numbers.");
+            $("#result").css("color", "#f44336");
         }
     }
     
     
-    // Execute this function if fields min and max exist. 
-    function minMaxCount (context) {
-        let firstFib = 1;
-        let secondFib = 1;
-        let currentFib = 0;
-        console.log(context.max);
-        while (firstFib <= context.max) {
-            if (firstFib >= context.min && firstFib <= context.max) {
-                fibonachiArr.push(firstFib);
+    // Counting fibonachi
+    function countFib () {
+        
+        var isValid = validation();
+        var firstFib = 1;
+        var secondFib = 1;
+        var currentFib;
+        
+        if (isValid) {
+            if (length == 0) { 
+                var fibonachi = new FibonachiMinMax (min, max);
+                while (firstFib <= fibonachi.max) {
+                    if (firstFib >= min && firstFib <= max) {
+                        fibonachiArr.push(firstFib);
+                    }
+                    currentFib = firstFib + secondFib;
+                    firstFib = secondFib;
+                    secondFib = currentFib;
+                }
+                showResult();
+                return fibonachiArr;
+            } else {
+                var fibonachi = new FibonachiLength (length);
+                for (var i = 0; i < fibonachi.length; i++) {
+                    fibonachiArr.push(firstFib);
+                    currentFib = firstFib + secondFib;
+                    firstFib = secondFib;
+                    secondFib = currentFib;
+                }
+                showResult();
+                return fibonachiArr;
             }
-            console.log("firstFib = ", firstFib);
-            currentFib = firstFib + secondFib;
-            firstFib = secondFib;
-            secondFib = currentFib;     
-        }
-        return fibonachiArr;
-    }
-    
-    // Execute this function if fields min and max DOES NOT exist, and if field length exists.
-    function lengthCount (context) {
-        let firstFib = 1;
-        let secondFib = 1;
-        let currentFib = 0;
-        for (let i = 0; i < context.length; i++) {
-            console.log("firstFib = ", firstFib);
-            fibonachiArr.push(firstFib);
-            currentFib = firstFib + secondFib;
-            firstFib = secondFib;
-            secondFib = currentFib;
-        }
-        return fibonachiArr;
-    }
-    
-    
-    // main programm
-    if (minMaxValidation(context)) {
-        result = minMaxCount(context);
-        return result;
-    } else {
-        if (lengthValidation(context)) {
-            result = lengthCount(context);
-            return result;
         } else {
-            return "Mistake";
+            return false;
         }
     }
     
+    return countFib(); 
 }
+
+$("#fibonachiCount").click(fibonachiCount);
